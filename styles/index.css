@@ -20,3 +20,7 @@ body {
   width: 100vw;
   max-width: 100vw;
 }
+
+.custom_slider{
+  width: 500px;
+}

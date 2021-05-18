@@ -3,20 +3,31 @@ import Slider from 'react-slick';
 import styled from '@emotion/styled';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
+import Card from '@material-ui/core/Card';
 import httpsWithQuality from '../../utils/httpsWithQuality';
 
 const Div = styled.div`
-  img {
-    object-fit: cover;
-    width: 100%;
-  }
+  padding: 0px 10px;
+`;
+const Div70 = styled.div`
+  width: 70%;
+  padding: 10px;
+`;
+const Text = styled.div`
+  padding: 20px 10px;
 `;
 
 export default class Carousel extends Component {
   state = {
     show: false,
   };
+  sliderRef = undefined;
+  componentDidMount() {}
+  componentDidUpdate(prevProps) {
+    if (prevProps.selectedIdx != this.props.selectedIdx) {
+      this.sliderRef.slickGoTo(this.props.selectedIdx);
+    }
+  }
 
   render() {
     const settings = {
@@ -24,11 +35,11 @@ export default class Carousel extends Component {
       lazyLoad: true,
       infinite: true,
       speed: 500,
-      slidesToShow: 1,
+      slidesToShow: 2,
       slidesToScroll: 1,
-      initialSlide: 3,
-      autoplay: true,
-      autoplaySpeed: 6000,
+      initialSlide: 0,
+      autoplay: false,
+      // autoplaySpeed: 6000,
       responsive: [
         {
           breakpoint: 1300,
@@ -38,22 +49,36 @@ export default class Carousel extends Component {
           },
         },
       ],
+      useCSS: true,
+      afterChange: (num) => this.props.onSlide(num),
+      centerMode: false,
     };
     return (
       <>
-        <Div className="property-carousel">
-          <Slider {...settings} className="relative">
+        <Div70>
+          <Slider
+            {...settings}
+            className="relative"
+            ref={(e) => (this.sliderRef = e)}
+          >
             {this.props.images.map((image, id) => (
-              <div key={'slide#' + id}>
-                <img
-                  src={httpsWithQuality(image.image_url, 450)}
-                  alt={image.filename}
-                  className="img-responsive"
-                />
-              </div>
+              <Div key={'slide#' + id}>
+                <Card>
+                  <img
+                    src={httpsWithQuality(image.image_url, 450)}
+                    alt={image.filename}
+                    className="img-responsive"
+                    style={{ width: '100%' }}
+                  />
+                  <Text>
+                    {id + '--'}
+                    {image.filename}
+                  </Text>
+                </Card>
+              </Div>
             ))}
           </Slider>
-        </Div>
+        </Div70>
       </>
     );
   }

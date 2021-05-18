@@ -1,6 +1,6 @@
-import Carousel from '../src/components/Carousel/Carousel';
+import HomeComponent from '../src/components/Home/home';
 import axios from 'axios';
-export default Carousel;
+export default HomeComponent;
 
 let data = [
   {
