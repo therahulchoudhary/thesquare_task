@@ -12,6 +12,9 @@ const Div = styled.div`
 const Div70 = styled.div`
   width: 70%;
   padding: 10px;
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 const Text = styled.div`
   padding: 20px 10px;
@@ -22,13 +25,11 @@ export default class Carousel extends Component {
     show: false,
   };
   sliderRef = undefined;
-  componentDidMount() {}
   componentDidUpdate(prevProps) {
     if (prevProps.selectedIdx != this.props.selectedIdx) {
       this.sliderRef.slickGoTo(this.props.selectedIdx);
     }
   }
-
   render() {
     const settings = {
       dots: false,
@@ -39,12 +40,12 @@ export default class Carousel extends Component {
       slidesToScroll: 1,
       initialSlide: 0,
       autoplay: false,
-      // autoplaySpeed: 6000,
+      focusOnSelect: true,
       responsive: [
         {
           breakpoint: 1300,
           settings: {
-            slidesToShow: 1,
+            slidesToShow: 2,
             slidesToScroll: 1,
           },
         },
@@ -60,10 +61,15 @@ export default class Carousel extends Component {
             {...settings}
             className="relative"
             ref={(e) => (this.sliderRef = e)}
+            onClick={this.handleSlide}
           >
             {this.props.images.map((image, id) => (
               <Div key={'slide#' + id}>
-                <Card>
+                <Card
+                  style={{
+                    border: this.props.selectedIdx == id ? '1px solid red' : 0,
+                  }}
+                >
                   <img
                     src={httpsWithQuality(image.image_url, 450)}
                     alt={image.filename}

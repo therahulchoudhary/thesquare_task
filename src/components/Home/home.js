@@ -11,29 +11,29 @@ const Select = styled.select`
   color: grey;
   outline: 0;
   margin: 20px;
+  @media only screen and (max-width: 600px) {
+    width: 90%;
+  }
 `;
 
 class HomeComponent extends Component {
   componentDidMount() {}
   componentDidUpdate() {}
 
-  _onSlide(value) {
+  _onChange(value) {
     this.props.changeIdx(value);
   }
 
-  _onDropDownChange(value) {
-    this.props.changeIdx(parseInt(value));
-  }
   render() {
     return (
       <>
         <Carousel
           images={this.props.images}
-          onSlide={(val) => this._onSlide(val)}
+          onSlide={(val) => this._onChange(val)}
           selectedIdx={this.props.selectedIdx}
         />
         <Select
-          onChange={(e) => this._onDropDownChange(e.target.value)}
+          onChange={(e) => this._onChange(parseInt(e.target.value))}
           value={this.props.selectedIdx}
         >
           {this.props.images.map((image, id) => (

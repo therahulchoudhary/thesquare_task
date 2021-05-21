@@ -2,7 +2,7 @@ import { AccessTimeOutlined } from '@material-ui/icons';
 import { ONSLIDE_EVT } from '../constants';
 
 const initialState = {
-  selectedIdx: undefined,
+  selectedIdx: 0,
 };
 
 export default function sliderReducer(state = initialState, action) {
